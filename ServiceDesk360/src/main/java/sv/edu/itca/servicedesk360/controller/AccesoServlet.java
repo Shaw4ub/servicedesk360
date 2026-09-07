@@ -1,8 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
-package servicedesk360.controller;
+package sv.edu.itca.servicedesk360.controller;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -19,18 +15,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import sv.edu.itca.servicedesk360.model.Solicitante;
+import sv.edu.itca.servicedesk360.model.Tecnico;
+import sv.edu.itca.servicedesk360.model.Usuario;
 
-/**
- *
- * @author shaw4
- */
 @WebServlet("/acceso")
 public class AccesoServlet extends HttpServlet {
 
     private static final Pattern CORREO_VALIDO = Pattern.compile(
+            "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$");
 
-    "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$");
- @Override
+    @Override
     protected void doGet(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
@@ -79,11 +74,23 @@ public class AccesoServlet extends HttpServlet {
             sesionAnterior.invalidate();
         }
         HttpSession sesion = request.getSession(true);
-        sesion.setAttribute("usuarioNombre", datosUsuario.get("nombre"));
+        String nombre = datosUsuario.get("nombre");
+        String rol = datosUsuario.get("rol");
+        String hash = datosUsuario.get("hash");
+
+        Usuario usuarioAutenticado;
+        if ("SOLICITANTE".equalsIgnoreCase(rol)) {
+            usuarioAutenticado = new Solicitante(nombre, correo, hash);
+        } else {
+            usuarioAutenticado = new Tecnico(nombre, correo, hash);
+        }
+
+        sesion.setAttribute("usuarioAutenticado", usuarioAutenticado);
+        sesion.setAttribute("usuarioNombre", nombre);
         sesion.setAttribute("usuarioCorreo", correo);
-        sesion.setAttribute("usuarioRol", datosUsuario.get("rol"));
+        sesion.setAttribute("usuarioRol", rol);
         sesion.setAttribute("usuarioRolDescripcion",
-                describirRol(datosUsuario.get("rol")));
+                describirRol(rol));
         sesion.setMaxInactiveInterval(15 * 60);
         if ("si".equals(request.getParameter("recordar"))) {
             agregarCookieCorreo(request, response, correo);
@@ -94,14 +101,12 @@ public class AccesoServlet extends HttpServlet {
     }
 
     private String describirRol(String rol) {
-        switch (rol) {
-            case "SOLICITANTE":
-                return "Solicitante de soporte";
-            case "TECNICO":
-                return "Técnico de soporte";
-            default:
-                return "Rol no identificado";
+        if ("SOLICITANTE".equalsIgnoreCase(rol)) {
+            return "Solicitante de soporte";
+        } else if ("TECNICO".equalsIgnoreCase(rol)) {
+            return "Técnico de soporte";
         }
+        return "Rol no identificado";
     }
 
     private void agregarCookieCorreo(HttpServletRequest request,

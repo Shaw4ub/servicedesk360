@@ -1,10 +1,5 @@
-<%-- 
-    Document   : panel
-    Created on : Aug 17, 2026, 11:42:45 AM
-    Author     : shaw4
---%>
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -12,17 +7,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Panel | ServiceDesk 360</title>
         <link rel="stylesheet"
-              href="resources/estilos.css">
+              href="${pageContext.request.contextPath}/resources/estilos.css">
     </head>
     <body>
         <main class="panel-usuario">
-            <h1>Bienvenido, ${sessionScope.usuarioNombre}</h1>
-            <p>Correo: ${sessionScope.usuarioCorreo}</p>
-            <p>Rol: ${sessionScope.usuarioRolDescripcion}</p>
+            <h1>Bienvenido, <c:out value="${sessionScope.usuarioNombre}" /></h1>
+            <p>Correo: <c:out value="${sessionScope.usuarioCorreo}" /></p>
+            <p>Rol: <c:out value="${sessionScope.usuarioRolDescripcion}" /></p>
             <div class="tarjetas-panel">
                 <section class="tarjeta-panel">
-                    <h2>Solicitudes</h2>
-                    <p>Módulo que se desarrollará progresivamente.</p>
+                    <h2>Solicitudes y Tickets</h2>
+                    <p>Módulo para apertura y seguimiento de incidencias de soporte.</p>
+                    <p><a class="boton" href="${pageContext.request.contextPath}/tickets">Gestionar tickets</a></p>
                 </section>
                 <section class="tarjeta-panel">
                     <h2>Equipos</h2>
