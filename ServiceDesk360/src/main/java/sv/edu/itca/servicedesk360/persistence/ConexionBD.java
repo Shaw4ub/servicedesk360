@@ -23,6 +23,24 @@ public final class ConexionBD {
     private static final Logger LOG
             = Logger.getLogger(ConexionBD.class.getName());
 
+    /*
+     * En Tomcat, DriverManager puede haberse inicializado antes de que el
+     * classloader de la aplicación estuviera disponible. Cargar el driver de
+     * forma explícita garantiza que quede registrado aunque el mecanismo
+     * automático de servicios no lo detecte.
+     */
+    static {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            LOG.log(Level.SEVERE,
+                    "No se encontró el controlador JDBC de MySQL en el "
+                    + "classpath de la aplicación.", ex);
+            throw new IllegalStateException(
+                    "No se encontró el controlador JDBC de MySQL.", ex);
+        }
+    }
+
     private static final Path ARCHIVO_CONFIGURACION = Path.of(
             System.getProperty("user.home"),
             ".servicedesk360", "db.properties");

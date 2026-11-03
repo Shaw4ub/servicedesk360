@@ -21,6 +21,11 @@
                     <p><a class="boton" href="${pageContext.request.contextPath}/tickets">Gestionar tickets</a></p>
                 </section>
                 <section class="tarjeta-panel">
+                    <h2>Clientes</h2>
+                    <p>Registro y administración de clientes de soporte.</p>
+                    <p><a class="boton" href="${pageContext.request.contextPath}/clientes">Gestionar clientes</a></p>
+                </section>
+                <section class="tarjeta-panel">
                     <h2>Equipos</h2>
                     <p>Registro y seguimiento de activos tecnológicos.</p>
                 </section>
