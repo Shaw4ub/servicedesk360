@@ -8,6 +8,8 @@ public interface ClienteDAO {
 
     List<Cliente> listar();
 
+    List<Cliente> listarActivos();
+
     Optional<Cliente> buscarPorId(long id);
 
     boolean existeCorreo(String correo, Long excluirId);

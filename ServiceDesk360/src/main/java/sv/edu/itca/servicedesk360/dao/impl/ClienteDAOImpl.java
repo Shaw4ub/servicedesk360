@@ -45,6 +45,26 @@ public class ClienteDAOImpl implements ClienteDAO {
     }
 
     @Override
+    public List<Cliente> listarActivos() {
+        String sql = "SELECT id_cliente, nombre, correo, activo "
+                + "FROM clientes WHERE activo = 1 ORDER BY nombre";
+        List<Cliente> clientes = new ArrayList<>();
+
+        try (Connection cn = ConexionBD.abrir();
+                PreparedStatement ps = cn.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                clientes.add(mapear(rs));
+            }
+            return clientes;
+        } catch (SQLException ex) {
+            throw new DAOException(
+                    "No fue posible listar los clientes activos", ex);
+        }
+    }
+
+    @Override
     public Optional<Cliente> buscarPorId(long id) {
         String sql = "SELECT id_cliente, nombre, correo, activo "
                 + "FROM clientes WHERE id_cliente = ?";
