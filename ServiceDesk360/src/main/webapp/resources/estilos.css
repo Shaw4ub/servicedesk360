@@ -113,3 +113,93 @@ body {
  padding: 18px;
  border-radius: 10px;
 }
+
+/* Estilos compartidos por las vistas JSF de la Guía 8. */
+.tabla-jsf {
+ width: 100%;
+ border-collapse: collapse;
+ margin-top: 18px;
+ background: #ffffff;
+}
+.tabla-jsf th,
+.tabla-jsf td {
+ border: 1px solid #dddddd;
+ padding: 9px;
+ text-align: left;
+ vertical-align: top;
+}
+.tabla-jsf th {
+ background: #eeeeee;
+}
+.boton.secundario {
+ background: #e0e0e0;
+ color: #262626;
+ margin-left: 6px;
+}
+.boton.peligro {
+ background: var(--rojo-itca);
+ color: #ffffff;
+}
+.boton.pequeno {
+ padding: 7px 10px;
+ font-size: 12px;
+ margin: 2px;
+}
+.formulario-jsf {
+ width: 100%;
+ border-collapse: separate;
+ border-spacing: 0 12px;
+}
+.formulario-jsf td {
+ vertical-align: middle;
+}
+.formulario-jsf td:first-child {
+ width: 28%;
+ font-weight: 700;
+}
+.campo-jsf {
+ width: 100%;
+ padding: 11px 12px;
+ border: 1px solid #b9b9b9;
+ border-radius: 8px;
+}
+.mensaje-vacio {
+ padding: 14px;
+ background: #ffffff;
+ border-left: 5px solid var(--dorado-itca);
+ border-radius: 8px;
+}
+.ui-messages-info,
+.ui-messages-warn,
+.ui-messages-error,
+.ui-messages-fatal {
+ padding: 12px;
+ border-radius: 8px;
+ margin-bottom: 14px;
+ list-style: none;
+}
+.ui-messages-info {
+ background: #edf8ef;
+ color: #245c2c;
+ border: 1px solid #a7d7ad;
+}
+.ui-messages-warn {
+ background: #fff8e1;
+ color: #7a5a00;
+ border: 1px solid #e6cf8b;
+}
+.ui-messages-error,
+.ui-messages-fatal {
+ background: #fdecea;
+ color: #8a1f11;
+ border: 1px solid #e5a59b;
+}
+.ui-messages ul {
+ margin: 0;
+ padding-left: 20px;
+}
+.ui-message-error,
+.ui-message-fatal {
+ color: #8a1f11;
+ font-weight: 700;
+}

@@ -14,6 +14,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <jakartaee>8.0.0</jakartaee>
+        <mojarra.version>2.3.21</mojarra.version>
+        <weld.version>3.1.9.Final</weld.version>
     </properties>
     
     <dependencies>
@@ -22,6 +24,18 @@
             <artifactId>jakarta.jakartaee-api</artifactId>
             <version>${jakartaee}</version>
             <scope>provided</scope>
+        </dependency>
+        <!-- Mojarra 2.3.x usa javax.faces.* y es compatible con Tomcat 9. -->
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>jakarta.faces</artifactId>
+            <version>${mojarra.version}</version>
+        </dependency>
+        <!-- Weld Servlet proporciona CDI 2.0 (javax.enterprise) en Tomcat. -->
+        <dependency>
+            <groupId>org.jboss.weld.servlet</groupId>
+            <artifactId>weld-servlet-shaded</artifactId>
+            <version>${weld.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>

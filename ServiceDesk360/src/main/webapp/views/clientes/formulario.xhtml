@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <f:metadata>
+        <f:viewParam name="id" value="#{clienteBean.idSeleccionado}"/>
+        <f:viewAction action="#{clienteBean.cargarFormulario}"/>
+    </f:metadata>
+    <h:head>
+        <meta charset="UTF-8"/>
+        <title>#{clienteBean.cliente.idCliente == null ? 'Nuevo' : 'Editar'} cliente | ServiceDesk 360</title>
+        <h:outputStylesheet name="estilos.css"/>
+    </h:head>
+    <h:body>
+        <main class="contenedor-formulario">
+            <h1>#{clienteBean.cliente.idCliente == null ? 'Nuevo cliente' : 'Editar cliente'}</h1>
+
+            <h:form id="formCliente">
+                <h:messages layout="list"/>
+
+                <h:panelGrid columns="2" styleClass="formulario-jsf">
+                    <h:outputLabel for="nombre" value="Nombre:"/>
+                    <h:inputText id="nombre"
+                                 value="#{clienteBean.cliente.nombre}"
+                                 required="true"
+                                 requiredMessage="El nombre es obligatorio."
+                                 maxlength="120"
+                                 styleClass="campo-jsf"/>
+
+                    <h:outputLabel for="correo" value="Correo:"/>
+                    <h:inputText id="correo"
+                                 value="#{clienteBean.cliente.correo}"
+                                 required="true"
+                                 requiredMessage="El correo es obligatorio."
+                                 maxlength="160"
+                                 styleClass="campo-jsf"/>
+                </h:panelGrid>
+
+                <div class="fila-opciones">
+                    <h:selectBooleanCheckbox id="activo"
+                                             value="#{clienteBean.cliente.activo}"/>
+                    <h:outputLabel for="activo" value="Activo"/>
+                </div>
+
+                <div class="acciones-formulario">
+                    <h:commandButton value="Guardar"
+                                     action="#{clienteBean.guardar}"
+                                     styleClass="boton"/>
+                    <h:commandButton value="Cancelar"
+                                     action="#{clienteBean.volverListado}"
+                                     immediate="true"
+                                     styleClass="boton secundario"/>
+                </div>
+            </h:form>
+        </main>
+    </h:body>
+</html>

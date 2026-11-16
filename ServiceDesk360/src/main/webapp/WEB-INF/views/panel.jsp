@@ -26,6 +26,11 @@
                     <p><a class="boton" href="${pageContext.request.contextPath}/clientes">Gestionar clientes</a></p>
                 </section>
                 <section class="tarjeta-panel">
+                    <h2>Módulos JSF</h2>
+                    <p>Clientes y tickets con Managed Beans y Facelets.</p>
+                    <p><a class="boton" href="${pageContext.request.contextPath}/index.xhtml">Abrir JSF</a></p>
+                </section>
+                <section class="tarjeta-panel">
                     <h2>Equipos</h2>
                     <p>Registro y seguimiento de activos tecnológicos.</p>
                 </section>

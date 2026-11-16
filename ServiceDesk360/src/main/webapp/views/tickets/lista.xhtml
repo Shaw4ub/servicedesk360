@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <meta charset="UTF-8"/>
+        <title>Tickets | ServiceDesk 360</title>
+        <h:outputStylesheet name="estilos.css"/>
+    </h:head>
+    <h:body>
+        <main class="panel-usuario">
+            <h1>Tickets de soporte</h1>
+            <p>
+                Vista JSF de solo lectura. Reutiliza TicketDetalleDTO y la
+                consulta JOIN implementada en la Guía 7.
+            </p>
+
+            <h:messages globalOnly="true" layout="list"/>
+
+            <h:form>
+                <h:commandButton value="Recargar"
+                                 action="#{ticketBean.cargar}"
+                                 styleClass="boton"/>
+                <a class="boton secundario"
+                   href="#{request.contextPath}/index.xhtml">
+                    Volver al inicio
+                </a>
+            </h:form>
+
+            <h:dataTable value="#{ticketBean.tickets}"
+                         var="t"
+                         rendered="#{not empty ticketBean.tickets}"
+                         styleClass="tabla-jsf">
+                <h:column>
+                    <f:facet name="header">ID</f:facet>
+                    #{t.idTicket}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Cliente</f:facet>
+                    #{t.cliente}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Equipo</f:facet>
+                    #{t.equipo}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Categoría</f:facet>
+                    #{t.categoria}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Técnico</f:facet>
+                    #{t.tecnico}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Título</f:facet>
+                    #{t.titulo}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Prioridad</f:facet>
+                    #{t.prioridad}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Estado</f:facet>
+                    #{t.estado}
+                </h:column>
+            </h:dataTable>
+
+            <h:panelGroup rendered="#{empty ticketBean.tickets}">
+                <p class="mensaje-vacio">No hay tickets registrados.</p>
+            </h:panelGroup>
+        </main>
+    </h:body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <meta charset="UTF-8"/>
+        <title>Clientes | ServiceDesk 360</title>
+        <h:outputStylesheet name="estilos.css"/>
+    </h:head>
+    <h:body>
+        <main class="panel-usuario">
+            <h1>Clientes</h1>
+
+            <h:messages globalOnly="true" layout="list"/>
+
+            <h:form>
+                <h:commandButton value="Nuevo cliente"
+                                 action="#{clienteBean.irNuevo}"
+                                 styleClass="boton"/>
+                <a class="boton secundario"
+                   href="#{request.contextPath}/index.xhtml">
+                    Volver al inicio
+                </a>
+            </h:form>
+
+            <h:dataTable value="#{clienteBean.clientes}"
+                         var="c"
+                         rendered="#{not empty clienteBean.clientes}"
+                         styleClass="tabla-jsf">
+                <h:column>
+                    <f:facet name="header">ID</f:facet>
+                    #{c.idCliente}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Nombre</f:facet>
+                    #{c.nombre}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Correo</f:facet>
+                    #{c.correo}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Activo</f:facet>
+                    #{c.activo ? 'Sí' : 'No'}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Acciones</f:facet>
+                    <h:form>
+                        <h:commandButton value="Editar"
+                                         action="#{clienteBean.editar(c)}"
+                                         styleClass="boton pequeno"/>
+                        <h:commandButton value="Desactivar"
+                                         action="#{clienteBean.desactivar(c)}"
+                                         rendered="#{c.activo}"
+                                         onclick="return confirm('¿Desactivar este cliente?');"
+                                         styleClass="boton peligro pequeno"/>
+                        <h:commandButton value="Activar"
+                                         action="#{clienteBean.activar(c)}"
+                                         rendered="#{not c.activo}"
+                                         styleClass="boton pequeno"/>
+                    </h:form>
+                </h:column>
+            </h:dataTable>
+
+            <h:panelGroup rendered="#{empty clienteBean.clientes}">
+                <p class="mensaje-vacio">No existen clientes registrados.</p>
+            </h:panelGroup>
+        </main>
+    </h:body>
+</html>

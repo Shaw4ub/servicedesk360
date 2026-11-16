@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <meta charset="UTF-8"/>
+        <title>ServiceDesk 360 | JSF</title>
+        <h:outputStylesheet name="estilos.css"/>
+    </h:head>
+    <h:body>
+        <header class="encabezado">
+            <h1>ServiceDesk 360</h1>
+            <p>Guía 8: JSF y Managed Beans</p>
+        </header>
+
+        <main class="contenedor">
+            <h2>Módulos JSF</h2>
+            <p>
+                Esta portada es una vista XHTML procesada por FacesServlet.
+                Los módulos siguientes reutilizan la capa DAO de las guías
+                anteriores; la vista no contiene SQL.
+            </p>
+
+            <h:form>
+                <h:commandButton value="Abrir clientes (JSF)"
+                                 action="clientes"
+                                 styleClass="boton"/>
+                <h:commandButton value="Ver tickets (solo lectura)"
+                                 action="tickets"
+                                 styleClass="boton"/>
+            </h:form>
+
+            <h3>Módulos JSP/Servlet existentes</h3>
+            <p>
+                <a href="#{request.contextPath}/clientes">
+                    Clientes (JSP/Servlet)
+                </a>
+                |
+                <a href="#{request.contextPath}/tickets">
+                    Tickets (JSP/Servlet)
+                </a>
+                |
+                <a href="#{request.contextPath}/panel">
+                    Panel
+                </a>
+            </p>
+        </main>
+    </h:body>
+</html>

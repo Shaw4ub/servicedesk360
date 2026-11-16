@@ -1,6 +1,10 @@
 package sv.edu.itca.servicedesk360.modelo;
 
-public class Cliente {
+import java.io.Serializable;
+
+public class Cliente implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Long idCliente;
     private String nombre;
@@ -16,6 +20,14 @@ public class Cliente {
         this.nombre = nombre;
         this.correo = correo;
         this.activo = activo;
+    }
+
+    /** Copia controlada para no compartir el objeto del listado con el formulario. */
+    public Cliente(Cliente otro) {
+        this(otro == null ? null : otro.idCliente,
+                otro == null ? null : otro.nombre,
+                otro == null ? null : otro.correo,
+                otro != null && otro.activo);
     }
 
     public Long getIdCliente() {
