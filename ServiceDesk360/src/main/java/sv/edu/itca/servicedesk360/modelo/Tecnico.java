@@ -1,6 +1,10 @@
 package sv.edu.itca.servicedesk360.modelo;
 
-public class Tecnico {
+import java.io.Serializable;
+
+public class Tecnico implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private int idTecnico;
     private String nombre;

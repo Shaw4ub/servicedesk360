@@ -1,6 +1,10 @@
 package sv.edu.itca.servicedesk360.modelo;
 
-public class Equipo {
+import java.io.Serializable;
+
+public class Equipo implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private int idEquipo;
     private int idCliente;

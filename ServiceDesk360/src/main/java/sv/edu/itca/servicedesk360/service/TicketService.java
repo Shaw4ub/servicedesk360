@@ -4,14 +4,24 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
+import sv.edu.itca.servicedesk360.dao.CategoriaDAO;
+import sv.edu.itca.servicedesk360.dao.ClienteDAO;
 import sv.edu.itca.servicedesk360.dao.DAOException;
 import sv.edu.itca.servicedesk360.dao.EquipoDAO;
 import sv.edu.itca.servicedesk360.dao.SeguimientoDAO;
+import sv.edu.itca.servicedesk360.dao.TecnicoDAO;
 import sv.edu.itca.servicedesk360.dao.TicketDAO;
+import sv.edu.itca.servicedesk360.dao.impl.CategoriaDAOImpl;
+import sv.edu.itca.servicedesk360.dao.impl.ClienteDAOImpl;
 import sv.edu.itca.servicedesk360.dao.impl.EquipoDAOImpl;
 import sv.edu.itca.servicedesk360.dao.impl.SeguimientoDAOImpl;
+import sv.edu.itca.servicedesk360.dao.impl.TecnicoDAOImpl;
 import sv.edu.itca.servicedesk360.dao.impl.TicketDAOImpl;
+import sv.edu.itca.servicedesk360.modelo.Categoria;
+import sv.edu.itca.servicedesk360.modelo.Cliente;
+import sv.edu.itca.servicedesk360.modelo.Equipo;
 import sv.edu.itca.servicedesk360.modelo.Seguimiento;
+import sv.edu.itca.servicedesk360.modelo.Tecnico;
 import sv.edu.itca.servicedesk360.modelo.Ticket;
 import sv.edu.itca.servicedesk360.modelo.TicketDetalleDTO;
 import sv.edu.itca.servicedesk360.persistence.ConexionBD;
@@ -26,6 +36,9 @@ public class TicketService {
     private final TicketDAO ticketDAO = new TicketDAOImpl();
     private final SeguimientoDAO seguimientoDAO = new SeguimientoDAOImpl();
     private final EquipoDAO equipoDAO = new EquipoDAOImpl();
+    private final ClienteDAO clienteDAO = new ClienteDAOImpl();
+    private final CategoriaDAO categoriaDAO = new CategoriaDAOImpl();
+    private final TecnicoDAO tecnicoDAO = new TecnicoDAOImpl();
 
     public int registrarTicketConSeguimiento(Ticket ticket,
             String detalleInicial) throws ServiceException {
@@ -80,6 +93,81 @@ public class TicketService {
         } catch (SQLException ex) {
             throw new ServiceException(
                     "No fue posible completar el proceso.", ex);
+        }
+    }
+
+    public void actualizarTicket(Ticket ticket) throws ServiceException {
+        validarDatos(ticket);
+
+        try {
+            if (!equipoDAO.perteneceACliente(
+                    ticket.getIdEquipo(), ticket.getIdCliente())) {
+                throw new ServiceException(
+                        "El equipo seleccionado no pertenece al cliente.");
+            }
+        } catch (DAOException ex) {
+            throw new ServiceException(
+                    "No fue posible validar el equipo.", ex);
+        }
+
+        try (Connection cn = ConexionBD.abrir()) {
+            if (!ticketDAO.actualizar(cn, ticket)) {
+                throw new ServiceException("Ticket no encontrado.");
+            }
+        } catch (DAOException ex) {
+            throw new ServiceException(
+                    "No fue posible actualizar el ticket.", ex);
+        } catch (SQLException ex) {
+            throw new ServiceException(
+                    "No fue posible actualizar el ticket.", ex);
+        }
+    }
+
+    public Ticket buscarTicket(int idTicket) throws ServiceException {
+        try {
+            return ticketDAO.buscar(idTicket)
+                    .orElseThrow(() -> new ServiceException(
+                            "Ticket no encontrado."));
+        } catch (DAOException ex) {
+            throw new ServiceException(
+                    "No fue posible consultar el ticket.", ex);
+        }
+    }
+
+    public List<Cliente> listarClientesActivos() throws ServiceException {
+        try {
+            return clienteDAO.listarActivos();
+        } catch (DAOException ex) {
+            throw new ServiceException(
+                    "No fue posible listar los clientes.", ex);
+        }
+    }
+
+    public List<Categoria> listarCategorias() throws ServiceException {
+        try {
+            return categoriaDAO.listarActivas();
+        } catch (DAOException ex) {
+            throw new ServiceException(
+                    "No fue posible listar las categorías.", ex);
+        }
+    }
+
+    public List<Tecnico> listarTecnicos() throws ServiceException {
+        try {
+            return tecnicoDAO.listarActivos();
+        } catch (DAOException ex) {
+            throw new ServiceException(
+                    "No fue posible listar los técnicos.", ex);
+        }
+    }
+
+    public List<Equipo> listarEquiposCliente(int idCliente)
+            throws ServiceException {
+        try {
+            return equipoDAO.listarPorCliente(idCliente);
+        } catch (DAOException ex) {
+            throw new ServiceException(
+                    "No fue posible listar los equipos.", ex);
         }
     }
 
@@ -155,6 +243,15 @@ public class TicketService {
 
     private void validar(Ticket ticket, String detalle)
             throws ServiceException {
+        validarDatos(ticket);
+
+        if (detalle == null || detalle.trim().isEmpty()) {
+            throw new ServiceException(
+                    "Seguimiento inicial requerido.");
+        }
+    }
+
+    private void validarDatos(Ticket ticket) throws ServiceException {
         if (ticket == null) {
             throw new ServiceException("El ticket es obligatorio.");
         }
@@ -195,10 +292,5 @@ public class TicketService {
             throw new ServiceException("Prioridad no válida.");
         }
         ticket.setPrioridad(prioridad);
-
-        if (detalle == null || detalle.trim().isEmpty()) {
-            throw new ServiceException(
-                    "Seguimiento inicial requerido.");
-        }
     }
 }

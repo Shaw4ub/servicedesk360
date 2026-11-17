@@ -203,3 +203,94 @@ body {
  color: #8a1f11;
  font-weight: 700;
 }
+
+/* Vista de tickets con PrimeFaces (Guía 10). */
+.panel-tickets {
+ width: min(96%, 1240px);
+}
+.barra-acciones {
+ display: flex;
+ flex-wrap: wrap;
+ align-items: center;
+ gap: 10px;
+ margin: 16px 0;
+}
+.filtros-tickets {
+ display: flex;
+ flex-wrap: wrap;
+ gap: 16px;
+ margin: 18px 0;
+ padding: 14px;
+ background: #ffffff;
+ border-radius: 10px;
+ box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+}
+.campo-filtro {
+ min-width: 220px;
+}
+.campo-filtro label {
+ display: block;
+ margin-bottom: 6px;
+ font-weight: 700;
+}
+.campo-ancho,
+.campo-ancho.ui-inputfield {
+ width: 100% !important;
+}
+.campo-ancho.ui-selectonemenu,
+.campo-ancho .ui-selectonemenu {
+ width: 100% !important;
+}
+.campo-ancho .ui-selectonemenu-label {
+ width: 100%;
+}
+.accion-ticket {
+ margin: 2px;
+}
+.tabla-prime {
+ margin-top: 16px;
+}
+.detalle-ticket {
+ margin-top: 22px;
+}
+.detalle-vacio {
+ display: block;
+ color: #5d6b78;
+ font-style: italic;
+}
+.detalle-grid {
+ width: 100%;
+}
+.titulo-dialogo {
+ margin: 0 0 14px;
+ color: #12395b;
+ font-size: 1.15rem;
+}
+.formulario-ticket {
+ width: 100%;
+}
+#dlgTicket .ui-dialog-content {
+ max-height: calc(100vh - 150px);
+ overflow-y: auto;
+}
+.formulario-ticket .ui-panelgrid-cell {
+ padding: 6px 8px;
+ vertical-align: top;
+}
+.celda-campo {
+ width: 100%;
+}
+.acciones-dialogo {
+ display: flex;
+ justify-content: flex-end;
+ gap: 10px;
+ margin-top: 18px;
+}
+.estado-carga {
+ padding: 12px 24px;
+ text-align: center;
+}
+.estado-carga p {
+ margin: 10px 0 0;
+ font-weight: 700;
+}

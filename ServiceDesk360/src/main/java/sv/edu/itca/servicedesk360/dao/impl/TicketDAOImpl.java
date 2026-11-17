@@ -63,6 +63,61 @@ public class TicketDAOImpl implements TicketDAO {
     }
 
     @Override
+    public boolean actualizar(Connection cn, Ticket ticket)
+            throws DAOException {
+        String sql = "UPDATE tickets SET id_cliente = ?, id_equipo = ?, "
+                + "id_tecnico = ?, id_categoria = ?, titulo = ?, "
+                + "descripcion = ?, prioridad = ? WHERE id_ticket = ?";
+
+        try (PreparedStatement ps = cn.prepareStatement(sql)) {
+            ps.setInt(1, ticket.getIdCliente());
+            ps.setInt(2, ticket.getIdEquipo());
+            ps.setInt(3, ticket.getIdTecnico());
+            ps.setInt(4, ticket.getIdCategoria());
+            ps.setString(5, ticket.getTitulo());
+            ps.setString(6, ticket.getDescripcion());
+            ps.setString(7, ticket.getPrioridad());
+            ps.setInt(8, ticket.getIdTicket());
+            return ps.executeUpdate() == 1;
+        } catch (SQLException ex) {
+            throw new DAOException("Error actualizando ticket.", ex);
+        }
+    }
+
+    @Override
+    public Optional<Ticket> buscar(int idTicket) throws DAOException {
+        String sql = "SELECT id_ticket, id_cliente, id_equipo, id_tecnico, "
+                + "id_categoria, titulo, descripcion, prioridad, estado, "
+                + "fecha_creacion FROM tickets WHERE id_ticket = ?";
+
+        try (Connection cn = ConexionBD.abrir();
+                PreparedStatement ps = cn.prepareStatement(sql)) {
+            ps.setInt(1, idTicket);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    return Optional.empty();
+                }
+                Timestamp fecha = rs.getTimestamp("fecha_creacion");
+                return Optional.of(new Ticket(
+                        rs.getInt("id_ticket"),
+                        rs.getInt("id_cliente"),
+                        rs.getInt("id_equipo"),
+                        rs.getInt("id_tecnico"),
+                        rs.getInt("id_categoria"),
+                        rs.getString("titulo"),
+                        rs.getString("descripcion"),
+                        rs.getString("prioridad"),
+                        rs.getString("estado"),
+                        fecha == null ? null : fecha.toLocalDateTime()));
+            }
+        } catch (SQLException ex) {
+            throw new DAOException(
+                    "No fue posible consultar el ticket", ex);
+        }
+    }
+
+    @Override
     public List<TicketDetalleDTO> listarDetalle(String estado,
             String prioridad, int limite, int offset) throws DAOException {
         String sql = SELECT_DETALLE

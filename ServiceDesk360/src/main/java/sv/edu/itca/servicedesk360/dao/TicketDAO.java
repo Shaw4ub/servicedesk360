@@ -10,6 +10,10 @@ public interface TicketDAO {
 
     int registrar(Connection cn, Ticket ticket) throws DAOException;
 
+    boolean actualizar(Connection cn, Ticket ticket) throws DAOException;
+
+    Optional<Ticket> buscar(int idTicket) throws DAOException;
+
     List<TicketDetalleDTO> listarDetalle(String estado, String prioridad,
             int limite, int offset) throws DAOException;
 

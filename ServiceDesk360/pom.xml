@@ -16,6 +16,8 @@
         <jakartaee>8.0.0</jakartaee>
         <mojarra.version>2.3.21</mojarra.version>
         <weld.version>3.1.9.Final</weld.version>
+        <!-- PrimeFaces 10 es compatible con JSF 2.3 (javax.faces.*) y Tomcat 9. -->
+        <primefaces.version>10.0.0</primefaces.version>
     </properties>
     
     <dependencies>
@@ -36,6 +38,11 @@
             <groupId>org.jboss.weld.servlet</groupId>
             <artifactId>weld-servlet-shaded</artifactId>
             <version>${weld.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>${primefaces.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
